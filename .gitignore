@@ -1,0 +1,101 @@
+# Files in the top-level directory that can be ignored
+server.py
+
+# Directories that can be ignored
+cast_ref/
+data/
+mm10_ref
+
+# For each directory, ignore large data files or deprecated files
+
+# cast_retrocopy_alignment
+
+# imgs
+cast_retrocopy_alignment/imgs/evals.svg
+cast_retrocopy_alignment/imgs/expr_scores.svg
+cast_retrocopy_alignment/imgs/scores.svg
+
+# bl6+encode_liver_ensembl_ballgown
+data/*
+
+# bl6_gene_reg_by_ncrna
+data/*
+
+# bl6_kallisto_ensembl
+data/*
+
+# bl6_kallisto_strg_merge/
+data/*
+
+# bl6_rna-seq_alignment/
+data/*
+
+# bl6_rrna_filter/
+data/*
+
+# bl6_rt_indel_transcripts/
+data/*
+
+# bl6_strg_merge/
+data/*
+
+# bl6_strg_merge_ballgown/
+data/*
+
+# bl6_strg_merge_vs_retrocopies/
+data/*
+
+# bl6_strg_merge_vs_rt_blocks/
+data/*
+
+# bl6_stringtie/
+data/*
+
+# bl6_stringtie_transcriptome_rsem/
+data/*
+
+# BP_rna-seq_fastqc/
+data/*
+
+# cast_retrocopy_alignment/
+data/*
+
+# cast_rna-seq_alignment/
+data/*
+
+# cast_rrna_filter/
+data/*
+
+# cast_rrna_identification/
+data/*
+
+# cast_strg_merge/
+data/*
+
+# cast_strg_merge_vs_retrocopies/
+data/*
+
+# cast_stringtie/
+data/*
+
+# encode_liver_rna-seq_alignment/
+data/*
+
+# encode_liver_rrna_filter/
+data/*
+
+# encode_liver_strg_merge/
+data/*
+
+# encode_liver_strg_merge_vs_retrocopies/
+data/*
+
+# encode_liver_strg_merge_vs_rt_blocks/
+data/*
+
+# encode_liver_stringtie/
+data/*
+
+# ensembl_vs_rt_blocks/
+data/*
+

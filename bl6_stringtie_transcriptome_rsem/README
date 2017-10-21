@@ -1,0 +1,9 @@
+Apply RSEM to the StringTie-reconstructed transcripts
+
+../rna-seq_transcriptome_reconstruction/data/stringtie_rrna_filtered
+	|
+	|
+	| ./src/run_rsem.sh
+	|
+	V
+./data/stringtie_rsem

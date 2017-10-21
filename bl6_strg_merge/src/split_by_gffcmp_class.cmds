@@ -1,0 +1,9 @@
+python src/split_by_gffcompare.py data/gffcompare_ensembl/ALL/ALL.ALL_merge.gtf.tmap data/stringtie_merge/ALL_merge.gtf data/split_by_gffcmp_class/ALL
+python src/split_by_gffcompare.py data/gffcompare_ensembl/B/B.B_merge.gtf.tmap data/stringtie_merge/B_merge.gtf data/split_by_gffcmp_class/B
+python src/split_by_gffcompare.py data/gffcompare_ensembl/Female_B/Female_B.Female_B_merge.gtf.tmap data/stringtie_merge/Female_B_merge.gtf data/split_by_gffcmp_class/Female_B
+python src/split_by_gffcompare.py data/gffcompare_ensembl/Female/Female.Female_merge.gtf.tmap data/stringtie_merge/Female_merge.gtf data/split_by_gffcmp_class/Female
+python src/split_by_gffcompare.py data/gffcompare_ensembl/Female_T/Female_T.Female_T_merge.gtf.tmap data/stringtie_merge/Female_T_merge.gtf data/split_by_gffcmp_class/Female_T
+python src/split_by_gffcompare.py data/gffcompare_ensembl/Male/Male.Male_merge.gtf.tmap data/stringtie_merge/Male_merge.gtf data/split_by_gffcmp_class/Male
+python src/split_by_gffcompare.py data/gffcompare_ensembl/Male_B/Male_B.Male_B_merge.gtf.tmap data/stringtie_merge/Male_B_merge.gtf data/split_by_gffcmp_class/Male_B
+python src/split_by_gffcompare.py data/gffcompare_ensembl/Male_T/Male_T.Male_T_merge.gtf.tmap data/stringtie_merge/Male_T_merge.gtf data/split_by_gffcmp_class/Male_T
+python src/split_by_gffcompare.py data/gffcompare_ensembl/T/T.T_merge.gtf.tmap data/stringtie_merge/T_merge.gtf data/split_by_gffcmp_class/T

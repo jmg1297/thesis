@@ -1,0 +1,194 @@
+'''
+Given a set of labelled BED-like files with gffcompare classification codes,
+draw horizontal barcharts showing the breakdown of codes in each one.
+'''
+
+import matplotlib
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+import numpy as np
+import sys
+import re
+import subprocess
+from math import *
+
+def get_proportions_dict(bed_fname_list, labels, tmap_fname, classes):
+    counts_dict = {label:{c:0 for c in classes} for label in labels}
+    counts_dict.update({"REF":{c:0 for c in classes}})
+    proportions_dict = {label:{} for label in labels}
+    proportions_dict.update({"REF":{}})
+    totals = {label:0 for label in labels}
+    totals.update({"REF":0})
+
+    num_lines = int(
+        subprocess.check_output(
+            "wc -l %s | awk '{print $1}'" % tmap_fname,
+            shell=True))
+
+    totals["REF"] = num_lines-1
+
+    with open(tmap_fname, 'r') as f:
+        headers = f.readline().strip().split()
+        for line in f:
+            class_code = line.strip().split()[2]
+            counts_dict["REF"][class_code] += 1
+
+    for fn,label in zip(bed_fname_list, labels):
+
+        print("Getting data from classification file {}".format(fn))
+        print('[' + ' '*50 + ']'),
+        print('\r'),
+        num_lines = int(
+            subprocess.check_output(
+                "wc -l %s | awk '{print $1}'" % fn,
+                shell=True
+            )
+        )
+        percent = 0.0
+
+        totals[label] = num_lines
+
+        with open(fn, 'r') as f:
+            for i,line in enumerate(f):
+                line_list = line.strip().split()
+                class_code = line_list[7]
+                counts_dict[label][class_code] += 1
+
+                percent = 100.0*(float(i)/num_lines)
+                num_bars = int(floor(percent/2))
+                print('\r'),
+                print('[' + '|'*num_bars + ' '*(50-num_bars) + ']'),
+                sys.stdout.flush()
+
+            print('\r'),
+            print('[' + '|'*50 + ']'),
+            sys.stdout.flush()
+            print("\nDone")
+
+        proportions_dict[label] = {
+            c:100*float(counts_dict[label][c])/num_lines for c in classes
+        }
+
+    proportions_dict["REF"] = {
+        c:100*float(counts_dict["REF"][c])/totals["REF"] for c in classes}
+
+    return proportions_dict, totals
+
+def draw_barchart(proportions_dict, totals, label_list, classes, img_fname):
+    '''
+    Make a horizontal barchart where each bar represents one set of indels
+    '''
+
+    print("Drawing barchart ... "),
+    sys.stdout.flush()
+
+    label_list = ["REF"] + label_list
+
+    cmap = matplotlib.cm.get_cmap('Greens')
+    color_dict = {}
+    for i,c in enumerate(["e", "j", "c", "="]):
+        color_dict[c] = cmap(float(i+1)/5)
+
+    color_dict.update({
+        "i":"blue",
+        "x":"purple",
+        "u":"red",
+        "o":"orange",
+        "p":"gray",
+        "s":"beige"
+    })
+
+    explanation_dict = {
+        "=":"complete match",
+        "c":"query contained in ref",
+        "j":"possible novel isoform",
+        "e":"possible pre-mRNA",
+        "i":"intronic",
+        "o":"exon overlap",
+        "p":"possible polymerase run-on",
+        "u":"novel transcript",
+        "x":"antisense exon overlap",
+        "s":"probable false positive"
+    }
+
+    num_bars = len(proportions_dict)
+
+    fig = plt.figure(figsize = [12,3*num_bars])
+
+    axis = fig.add_axes([0.05,0.05,0.9,0.9])
+
+    axis.set_ylabel("Region set")
+    axis.set_xlabel("Percentage of transcripts")
+
+    height = 0.8
+
+    axis.set_xlim([-5,105])
+    axis.set_ylim([0.5, num_bars+1])
+    axis.set_yticks([i + height/2 for i in range(1, num_bars+1)])
+    ytick_labels = [
+        "{} ({})".format(label, totals[label]) for label in label_list
+    ]
+    axis.set_yticklabels(ytick_labels)
+
+    axis.spines['right'].set_visible(False)
+    axis.spines['top'].set_visible(False)
+
+    for i,label in enumerate(label_list):
+        data = proportions_dict[label]
+        sum_width = 0
+        for c in classes:
+            percentage = data[c]
+            axis.barh(
+                i+1,
+                percentage,
+                height=height,
+                left=sum_width,
+                color=color_dict[c],
+                lw=0,
+                alpha=0.7
+            )
+
+            if percentage > 5:
+                axis.text(
+                    sum_width + percentage/2,
+                    i + 1 + height/2,
+                    "%s\n%.2f" % (c, percentage),
+                    horizontalalignment='center',
+                    verticalalignment='center',
+                    fontsize=10
+                )
+
+            sum_width += percentage
+
+
+    legend_patches = [
+        mpatches.Patch(
+            color=color_dict[c],
+            label="{}: {}".format(c, explanation_dict[c]))
+        for c in classes]
+
+    plt.legend(
+        handles=legend_patches,
+        loc=2,
+        bbox_to_anchor=(1.05, 1.05),
+        prop={'size':10}
+    )
+
+    plt.savefig(img_fname, bbox_inches='tight')
+
+    print("Done")
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-b", "--bed_fname", action="append")
+    parser.add_argument("-l", "--label", action="append")
+    parser.add_argument("tmap_fname")
+    parser.add_argument("img_fname")
+    args = parser.parse_args()
+
+    classes = ["=", "c", "j", "e", "i", "x", "u", "o", "p", "s"]
+
+    proportions_dict, totals = get_proportions_dict(args.bed_fname, args.label, args.tmap_fname, classes)
+
+    draw_barchart(proportions_dict, totals, args.label, classes, args.img_fname)

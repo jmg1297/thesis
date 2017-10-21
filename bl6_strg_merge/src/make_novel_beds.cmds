@@ -1,0 +1,9 @@
+cat data/split_by_gffcmp_class/ALL/novel_non-coding.gtf | grep -P "\stranscript\s" | awk '{print $1,$4,$5,$12,1,$18,$7}' | sed -r 's/[";]//g' | sed -r 's/\s+/\t/g' > data/novel_beds/ALL/novel_non-coding.bed
+cat data/split_by_gffcmp_class/B/novel_non-coding.gtf | grep -P "\stranscript\s" | awk '{print $1,$4,$5,$12,1,$18,$7}' | sed -r 's/[";]//g' | sed -r 's/\s+/\t/g' > data/novel_beds/B/novel_non-coding.bed
+cat data/split_by_gffcmp_class/Female_B/novel_non-coding.gtf | grep -P "\stranscript\s" | awk '{print $1,$4,$5,$12,1,$18,$7}' | sed -r 's/[";]//g' | sed -r 's/\s+/\t/g' > data/novel_beds/Female_B/novel_non-coding.bed
+cat data/split_by_gffcmp_class/Female/novel_non-coding.gtf | grep -P "\stranscript\s" | awk '{print $1,$4,$5,$12,1,$18,$7}' | sed -r 's/[";]//g' | sed -r 's/\s+/\t/g' > data/novel_beds/Female/novel_non-coding.bed
+cat data/split_by_gffcmp_class/Female_T/novel_non-coding.gtf | grep -P "\stranscript\s" | awk '{print $1,$4,$5,$12,1,$18,$7}' | sed -r 's/[";]//g' | sed -r 's/\s+/\t/g' > data/novel_beds/Female_T/novel_non-coding.bed
+cat data/split_by_gffcmp_class/Male/novel_non-coding.gtf | grep -P "\stranscript\s" | awk '{print $1,$4,$5,$12,1,$18,$7}' | sed -r 's/[";]//g' | sed -r 's/\s+/\t/g' > data/novel_beds/Male/novel_non-coding.bed
+cat data/split_by_gffcmp_class/Male_B/novel_non-coding.gtf | grep -P "\stranscript\s" | awk '{print $1,$4,$5,$12,1,$18,$7}' | sed -r 's/[";]//g' | sed -r 's/\s+/\t/g' > data/novel_beds/Male_B/novel_non-coding.bed
+cat data/split_by_gffcmp_class/Male_T/novel_non-coding.gtf | grep -P "\stranscript\s" | awk '{print $1,$4,$5,$12,1,$18,$7}' | sed -r 's/[";]//g' | sed -r 's/\s+/\t/g' > data/novel_beds/Male_T/novel_non-coding.bed
+cat data/split_by_gffcmp_class/T/novel_non-coding.gtf | grep -P "\stranscript\s" | awk '{print $1,$4,$5,$12,1,$18,$7}' | sed -r 's/[";]//g' | sed -r 's/\s+/\t/g' > data/novel_beds/T/novel_non-coding.bed

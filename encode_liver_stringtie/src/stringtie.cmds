@@ -1,0 +1,2 @@
+stringtie /home/jg600/projects/encode_liver_rrna_filter/data/rrna_filter/ENCFF001RT_rep1/rseqc_rrna.ex.sorted.bam -f 0.05 -o data/stringtie/ENCFF001RT_rep1/out.gtf -M 0.99 -p 10 --fr
+stringtie /home/jg600/projects/encode_liver_rrna_filter/data/rrna_filter/ENCFF001RT_rep2/rseqc_rrna.ex.sorted.bam -f 0.05 -o data/stringtie/ENCFF001RT_rep2/out.gtf -M 0.99 -p 10 --fr

@@ -1,0 +1,11 @@
+cd data/rrna_filter/11048_7#39_CAST-Eij_Male_B; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11048_7#38_CAST-Eij_Male_B; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11049_7#41_CAST-Eij_Male_T; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11048_7#37_CAST-Eij_Male_B; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11049_7#40_CAST-Eij_Male_T; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11048_6#27_CAST-Eij_Female_B; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11048_6#26_CAST-Eij_Female_B; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11048_6#25_CAST-Eij_Female_B; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11049_6#30_CAST-Eij_Female_T; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11049_6#29_CAST-Eij_Female_T; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam
+cd data/rrna_filter/11049_6#28_CAST-Eij_Female_T; samtools sort -@ 4 -T tmp.sorted -O 'bam' rseqc_rrna.ex.bam > rseqc_rrna.ex.sorted.bam

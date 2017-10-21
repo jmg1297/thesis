@@ -1,0 +1,9 @@
+gffcompare -R -r /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.protein_coding.gtf -o data/gffcompare_ensembl/Male_B ./data/stringtie_merge/Male_B_merge.gtf
+gffcompare -R -r /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.protein_coding.gtf -o data/gffcompare_ensembl/B ./data/stringtie_merge/B_merge.gtf
+gffcompare -R -r /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.protein_coding.gtf -o data/gffcompare_ensembl/Female_B ./data/stringtie_merge/Female_B_merge.gtf
+gffcompare -R -r /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.protein_coding.gtf -o data/gffcompare_ensembl/ALL ./data/stringtie_merge/ALL_merge.gtf
+gffcompare -R -r /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.protein_coding.gtf -o data/gffcompare_ensembl/Female_T ./data/stringtie_merge/Female_T_merge.gtf
+gffcompare -R -r /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.protein_coding.gtf -o data/gffcompare_ensembl/Male_T ./data/stringtie_merge/Male_T_merge.gtf
+gffcompare -R -r /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.protein_coding.gtf -o data/gffcompare_ensembl/T ./data/stringtie_merge/T_merge.gtf
+gffcompare -R -r /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.protein_coding.gtf -o data/gffcompare_ensembl/Female ./data/stringtie_merge/Female_merge.gtf
+gffcompare -R -r /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.protein_coding.gtf -o data/gffcompare_ensembl/Male ./data/stringtie_merge/Male_merge.gtf

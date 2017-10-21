@@ -4,11 +4,14 @@ server.py
 # Directories that can be ignored
 cast_ref/
 data/
-mm10_ref
+mm10_ref/
+deprecated/
+circos_plots/
 
 # For each directory, ignore large data files or deprecated files
 
 # cast_retrocopy_alignment
+data/* 
 
 # imgs
 cast_retrocopy_alignment/imgs/evals.svg

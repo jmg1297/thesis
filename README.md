@@ -20,7 +20,7 @@ into subdirectories representing different stages in data processing
 2. `src`: contains scripts used to carry out the analysis
 3. `imgs`: contains images produced by scripts
 
-The majority of Python scripts have been written using the `argparse` 
+The majority of my Python scripts have been written using the `argparse` 
 package, so running `python <script_name.py> -h` or
 `python <script_name.py> --help` will display usage information. Scripts
 written in other languages will have descriptive comments, unless

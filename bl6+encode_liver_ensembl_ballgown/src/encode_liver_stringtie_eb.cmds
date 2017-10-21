@@ -1,0 +1,2 @@
+stringtie -e -B -p 10 -G /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.gtf -o data/stringtie_eb/ENCFF001RT_rep1/ENCFF001RT_rep1.gtf /home/jg600/projects/encode_liver_rrna_filter/data/rrna_filter/ENCFF001RT_rep1/rseqc_rrna.ex.sorted.bam
+stringtie -e -B -p 10 -G /home/jg600/projects/mm10_ref/transcriptome/ensembl/Mus_musculus.GRCm38.84.gtf -o data/stringtie_eb/ENCFF001RT_rep2/ENCFF001RT_rep2.gtf /home/jg600/projects/encode_liver_rrna_filter/data/rrna_filter/ENCFF001RT_rep2/rseqc_rrna.ex.sorted.bam

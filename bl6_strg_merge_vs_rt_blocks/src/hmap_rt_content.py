@@ -8,9 +8,9 @@ import subprocess
 import sys
 import logging
 import re
+import tempfile as tf
 from math import *
 
-import numpy as np
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -113,6 +113,93 @@ def make_color_list(headers):
 	color_list.append("white")
 	return color_list
 
+def get_linkage(feat_array, rscript_fname="src/do_sigclust.R"):
+    '''
+    Run an R script to get a hierarchical clustering of the data with p-values
+    from sigclust2, then read the output back and construct a linkage matrix
+    like the one produced by scipy
+    '''
+
+    clustering_data = {}
+
+    with tf.NamedTemporaryFile() as tmp:
+        for row in feat_array:
+            tmp.write(",".join(map(str, row)) + "\n")
+        tmp.flush()
+
+        cmd = "Rscript " + rscript_fname + " " + tmp.name
+        r_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+
+        while True:
+            output = r_process.stdout.readline()
+            if output == '' and r_process.poll() is not None:
+                break
+            if output:
+                if "MATRIX:" in output:
+                    matrix_name = output.strip().split(":")[1]
+                    clustering_data[matrix_name] = []
+                else:
+                    clustering_data[matrix_name].append(map(float, output.strip().split(",")))
+
+        rc = r_process.poll()
+        logging.info("Return code = %d" % rc)
+
+    # Now we have all the information we need in clustering_data
+    # Need to convert into a scipy linkage matrix
+    '''
+    Linkage matrix specs:
+    (n-1) x 4 matrix where n is the number of original matrices
+    1st col, 2nd col: clusters being joined at iteration i (= row number). If
+      < n, represent an original observation
+    3rd col: distance between clusters
+    4th col: number of original observations in new cluster
+    '''
+
+    '''
+    Information from hclust:
+    p-vals: not needed immediately
+    merge: (n-1) x 2 matrix, where row i are clusters joined at iteration i.
+      Negative values are original observations, positive are new clusters
+    height: distance between clusters? TBC
+    order: not needed immediately (if at all)
+    '''
+    n = feat_array.shape[0]
+    Z = np.zeros((n-1, 4))
+
+    for i, (merge_row, height_row) in enumerate(zip(clustering_data["merge"], clustering_data["height"])):
+        dist = height_row[0]
+        clus1, clus2 = merge_row
+        if clus1 < 0:
+            clus1 = int(abs(clus1))-1
+        else:
+            clus1 += (n-1)
+
+        if clus2 < 0:
+            clus2 = int(abs(clus2))-1
+        else:
+            clus2 += (n-1)
+
+        Z[i,0] = clus1
+        Z[i,1] = clus2
+        Z[i,2] = dist
+
+    # N.B.: sigclust2 leaves p=2 if it did not calculate anything
+    return Z, clustering_data["p_vals"]
+
+def add_pval_text(dendro_axis, dendro, p_vals):
+    p_vals = [p[0] for p in p_vals]
+    sig = [p for p in p_vals if p < 0.01]
+    for p in sig:
+        i = p_vals.index(p)
+        x = 0.5*(dendro["icoord"][-(i+1)][1] + dendro["icoord"][-(i+1)][2])
+        y = dendro["dcoord"][-(i+1)][1]
+
+        dendro_axis.text(
+            y, x, " $p=%.2e$" % p,
+            fontsize=8, verticalalignment="bottom", horizontalalignment="right",
+            rotation=90)
+
+
 def make_heatmap(feat_array, num_transcripts, headers, img_fname):
     '''
     Draw a heatmap showing the relative amount of each type of feature in each
@@ -140,14 +227,21 @@ def make_heatmap(feat_array, num_transcripts, headers, img_fname):
     logging.info("Clustering data")
 
     # Do the clustering
-    Z = linkage(feat_array, 'ward')
+    #Z = linkage(feat_array, 'ward')
+    '''
+    Need to replace this with the following:
+    - pass feat_array to an R script
+    - R script uses sigclust2 to perform hierarchical clustering and calculate
+      p-values for the branchs
+    - R script passes relevant information back
+    - convert this information into a linkage matrix that can be used to plot
+      the dendrogram and order the rows of feat_array for the heatmap
+    - add p-values to the dendrogram at appropriate locations
+    '''
+
+    Z, p_vals = get_linkage(feat_array)
 
     logging.info("Finished clustering")
-
-    # Sort the data according to the leaves list
-    #feat_array = feat_array[leaves_list(Z)]
-
-    #logging.info("Finished sorting")
 
     logging.info("Plotting dendogram")
 
@@ -161,12 +255,14 @@ def make_heatmap(feat_array, num_transcripts, headers, img_fname):
     ])
 
     # Plot the dendrogram
-    dendrogram(Z, orientation = "right")
+    dendro = dendrogram(Z, orientation = "right")
 
     # Remove x and y tick labels and add a y axis label
     dendro_axis.set_xticks([])
     dendro_axis.set_yticks([])
     dendro_axis.set_ylabel("Transcripts (%d)" % num_transcripts)
+
+    add_pval_text(dendro_axis, dendro, p_vals)
 
     # Convert the raw data into a matrix that can be used by imshow.
     # Each transcript is divided into 100 bins, and each class of repeat is
@@ -215,7 +311,6 @@ def make_heatmap(feat_array, num_transcripts, headers, img_fname):
                 print(row)
                 print(new_row)
                 sys.exit()
-                continue
 
         # If this is the first row, create the new numpy array; otherwise
         # concatenate the new row to the existing array

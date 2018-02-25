@@ -1,5 +1,6 @@
 # Files in the top-level directory that can be ignored
 server.py
+virtualenv/
 
 # Directories that can be ignored
 cast_ref/

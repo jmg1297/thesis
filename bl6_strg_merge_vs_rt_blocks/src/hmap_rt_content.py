@@ -143,6 +143,9 @@ def get_linkage(feat_array, rscript_fname="src/do_sigclust.R"):
 
         rc = r_process.poll()
         logging.info("Return code = %d" % rc)
+        if rc != 0:
+            logging.info("Non-zero return code from R process")
+            return (None, None)
 
     # Now we have all the information we need in clustering_data
     # Need to convert into a scipy linkage matrix
@@ -240,6 +243,9 @@ def make_heatmap(feat_array, num_transcripts, headers, img_fname):
     '''
 
     Z, p_vals = get_linkage(feat_array)
+    if None in (Z, p_vals):
+        logging.info("Bad return from R process, aborting")
+        sys.exit()
 
     logging.info("Finished clustering")
 
